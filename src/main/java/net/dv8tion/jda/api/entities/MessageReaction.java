@@ -351,7 +351,8 @@ public class MessageReaction
                 throw new PermissionException("Unable to remove Reaction of other user in non-guild channels!");
 
             IPermissionContainer permChannel;
-            if((channel.getType() == ChannelType.GUILD_PUBLIC_THREAD || channel.getType() == ChannelType.GUILD_PRIVATE_THREAD)
+            if((channel.getType() == ChannelType.GUILD_PUBLIC_THREAD ||
+                    channel.getType() == ChannelType.GUILD_PRIVATE_THREAD)
                     && getGuildChannel() != null)
                 permChannel = this.getGuildChannel().getPermissionContainer();
             else
