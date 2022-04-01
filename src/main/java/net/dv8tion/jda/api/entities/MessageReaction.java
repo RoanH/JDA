@@ -347,11 +347,16 @@ public class MessageReaction
         boolean self = user.equals(getJDA().getSelfUser());
         if (!self)
         {
-            if (!channel.getType().isGuild()) {
+            if (!channel.getType().isGuild())
                 throw new PermissionException("Unable to remove Reaction of other user in non-guild channels!");
-            }
 
-            IPermissionContainer permChannel = (IPermissionContainer) this.channel;
+            IPermissionContainer permChannel;
+            if((channel.getType() == ChannelType.GUILD_PUBLIC_THREAD || channel.getType() == ChannelType.GUILD_PRIVATE_THREAD)
+                    && getGuildChannel() != null)
+                permChannel = this.getGuildChannel().getPermissionContainer();
+            else
+                permChannel = (IPermissionContainer) this.channel;
+
             if (!permChannel.getGuild().getSelfMember().hasPermission(permChannel, Permission.MESSAGE_MANAGE))
                 throw new InsufficientPermissionException(permChannel, Permission.MESSAGE_MANAGE);
         }
